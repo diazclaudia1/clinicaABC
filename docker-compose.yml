@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  
+  rabbitmq:
+    image: 'rabbitmq:3.6-management-alpine'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
+  contabilidad_1:
+    build: contabilidad
+    volumes:
+      - ./contabilidad:/app
+    environment:
+      - MICROSERVICIO=1
+
+  contabilidad_2:
+    build: contabilidad
+    volumes:
+      - ./contabilidad:/app
+    environment:
+      - MICROSERVICIO=2
+
+  contabilidad_3:
+    build: contabilidad
+    volumes:
+      - ./contabilidad:/app
+    environment:
+      - MICROSERVICIO=3
+
+  validador:
+    build: validador
+    volumes:
+      - ./validador:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  reportes:
+    build: reportes
+    volumes:
+      - ./reportes:/app
+    ports:
+      - 5000:5000
