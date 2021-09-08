@@ -12,6 +12,7 @@ services:
     build: contabilidad
     volumes:
       - ./contabilidad:/app
+      - ./db/:/db_contabilidad/
     environment:
       - MICROSERVICIO=1
 
@@ -19,6 +20,7 @@ services:
     build: contabilidad
     volumes:
       - ./contabilidad:/app
+      - ./db/:/db_contabilidad/
     environment:
       - MICROSERVICIO=2
 
@@ -26,6 +28,7 @@ services:
     build: contabilidad
     volumes:
       - ./contabilidad:/app
+      - ./db/:/db_contabilidad/
     environment:
       - MICROSERVICIO=3
 

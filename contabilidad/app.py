@@ -1,18 +1,32 @@
+from flask import Flask
 import pika
 import os
 import time
 import sys
 
+app = Flask(__name__)
+original_stdout = sys.stdout
+
 sleepTime = 5
 print(' [*] Inicia en  ', sleepTime, ' segundos.')
-CANAL = 'canal_contabilidad_' + os.getenv('MICROSERVICIO')
+MICROSERVICIO = os.getenv('MICROSERVICIO')
+CANAL = 'canal_contabilidad_' + MICROSERVICIO
+if not os.path.exists('sqlite:///db_contabilidad/test_'+MICROSERVICIO+'.db'):
+    with open('log'+CANAL+'.txt', 'w') as f:
+        sys.stdout = f # Change the standard output to the file we created.
+        print('si existe ')
+        sys.stdout = original_stdout
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db_contabilidad/test_'+MICROSERVICIO+'.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 time.sleep(sleepTime)
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
 channel = connection.channel()
 channel.queue_declare(queue=CANAL, durable=True)
-original_stdout = sys.stdout
+
 
 def callback(ch, method, properties, body):
 
@@ -20,7 +34,7 @@ def callback(ch, method, properties, body):
 
     with open('log'+CANAL+'.txt', 'w') as f:
         sys.stdout = f # Change the standard output to the file we created.
-        print('cmd', cmd, CANAL, os.getenv('MICROSERVICIO'))
+        print('cmd', cmd, CANAL, MICROSERVICIO)
         sys.stdout = original_stdout
 
     if cmd == 'financiero':

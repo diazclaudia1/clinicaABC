@@ -47,6 +47,6 @@ channel.basic_consume(queue='canal_validador', on_message_callback=callback)
 channel.start_consuming()
 
 
-@app.route('/mail')
+@app.route('/')
 def index():
     return 'OK'
