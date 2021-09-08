@@ -1,6 +1,7 @@
 import pika
 import os
 import time
+import sys
 
 sleepTime = 5
 print(' [*] Inicia en  ', sleepTime, ' segundos.')
@@ -11,10 +12,16 @@ time.sleep(sleepTime)
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
 channel = connection.channel()
 channel.queue_declare(queue=CANAL, durable=True)
+original_stdout = sys.stdout
 
 def callback(ch, method, properties, body):
 
     cmd = body.decode()
+
+    with open('log'+CANAL+'.txt', 'w') as f:
+        sys.stdout = f # Change the standard output to the file we created.
+        print('cmd', cmd, CANAL, os.getenv('MICROSERVICIO'))
+        sys.stdout = original_stdout
 
     if cmd == 'financiero':
         print("imprime reporte financioer")

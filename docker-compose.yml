@@ -34,7 +34,9 @@ services:
     volumes:
       - ./validador:/app
     environment:
-      - PYTHONUNBUFFERED=1
+      - MICROSERVICIO=4
+    ports:
+      - 5001:5000
 
   reportes:
     build: reportes

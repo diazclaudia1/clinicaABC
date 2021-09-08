@@ -1,0 +1,1 @@
+respuesta microservicios contabilidad canal_contabilidad_1 = respuesta consulta base de datos sqlite
