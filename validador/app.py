@@ -14,8 +14,8 @@ time.sleep(sleepTime)
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
-app.config['MAIL_USERNAME'] = 'tuprimerodev@gmail.com'
-app.config['MAIL_PASSWORD'] = 'yvibxeztdffmqpdd'
+app.config['MAIL_USERNAME'] = ''
+app.config['MAIL_PASSWORD'] = ''
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 mail = Mail(app)
@@ -35,8 +35,8 @@ def callback(ch, method, properties, body):
         sys.stdout = original_stdout
 
     with app.app_context():
-        msg = Message('Hello from the other side!', sender =   'tuprimerodev@gmail.com', recipients = ['germaneherrera@gmail.com'])
-        msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works"
+        msg = Message('Alerta!', sender = '', recipients = [''])
+        msg.body = "se genera alerta en el validador - voting para el servidor " + cmd
         mail.send(msg)
     
     ch.basic_ack(delivery_tag=method.delivery_tag)
