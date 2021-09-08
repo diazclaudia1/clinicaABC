@@ -14,8 +14,8 @@ time.sleep(sleepTime)
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
-app.config['MAIL_USERNAME'] = ''
-app.config['MAIL_PASSWORD'] = ''
+app.config['MAIL_USERNAME'] = 'gehdevtests@gmail.com '
+app.config['MAIL_PASSWORD'] = 'zkadjaefpsxbbldd'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 mail = Mail(app)
@@ -35,7 +35,7 @@ def callback(ch, method, properties, body):
         sys.stdout = original_stdout
 
     with app.app_context():
-        msg = Message('Alerta!', sender = '', recipients = [''])
+        msg = Message('Alerta!', sender =   'gehdevtests@gmail.com ', recipients = ['r.orellana@uniandes.edu.co', 's.ocampor@uniandes.edu.co', 'cx.diaz@uniandes.edu.co'])
         msg.body = "se genera alerta en el validador - voting para el servidor " + cmd
         mail.send(msg)
     

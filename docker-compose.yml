@@ -38,8 +38,6 @@ services:
       - ./validador:/app
     environment:
       - MICROSERVICIO=4
-    ports:
-      - 5001:5000
 
   reportes:
     build: reportes

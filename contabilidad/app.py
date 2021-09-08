@@ -17,7 +17,6 @@ if not os.path.exists('sqlite:///db_contabilidad/test_'+MICROSERVICIO+'.db'):
         print('si existe ')
         sys.stdout = original_stdout
 
-
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db_contabilidad/test_'+MICROSERVICIO+'.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -49,7 +48,7 @@ def callback(ch, method, properties, body):
             ))
         # connection.close()
     else:
-        print("Mensaaje = ", body)
+        print("Mensaje = ", body)
 
     print(" [x] Ok")
 
