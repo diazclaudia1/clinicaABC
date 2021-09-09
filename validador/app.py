@@ -36,7 +36,7 @@ def callback(ch, method, properties, body):
 
     with app.app_context():
         msg = Message('Alerta!', sender =   'gehdevtests@gmail.com ', recipients = ['r.orellana@uniandes.edu.co', 's.ocampor@uniandes.edu.co', 'cx.diaz@uniandes.edu.co'])
-        msg.body = "se genera alerta en el validador - voting para el servidor " + cmd
+        msg.body = "se genera alerta en el validador - voting para el servidor =  " + cmd
         mail.send(msg)
     
     ch.basic_ack(delivery_tag=method.delivery_tag)

@@ -30,19 +30,20 @@ channel.queue_declare(queue=CANAL, durable=True)
 def callback(ch, method, properties, body):
 
     cmd = body.decode()
+    solicitud = cmd.split('---')
 
     with open('log'+CANAL+'.txt', 'w') as f:
         sys.stdout = f # Change the standard output to the file we created.
-        print('cmd', cmd, CANAL, MICROSERVICIO)
+        print('cmd', cmd, CANAL, MICROSERVICIO, solicitud)
         sys.stdout = original_stdout
 
-    if cmd == 'financiero':
+    if solicitud[0] == 'financiero':
         print("imprime reporte financioer")
         channel.queue_declare(queue='canal_validador', durable=True)
         channel.basic_publish(
             exchange='',
             routing_key='canal_validador',
-            body=CANAL + " = respuesta consulta base de datos sqlite",
+            body=CANAL + " = respuesta consulta base de datos sqlite. UUID del reporte = (" + solicitud[1]+")",
             properties=pika.BasicProperties(
                 delivery_mode=2,  # make message persistent
             ))
