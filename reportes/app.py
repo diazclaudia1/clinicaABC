@@ -21,6 +21,7 @@ def add(cmd):
     # channel.queue_declare(queue='task_queue', durable=True)
     uuidOne = uuid.uuid1()
     mensaje = cmd+'---'+str(uuidOne)
+    print(mensaje)
     
     channel.basic_publish(
         exchange='',
@@ -44,7 +45,7 @@ def add(cmd):
             delivery_mode=2,  # make message persistent
         ))
     connection.close()
-    return " [x] Sent: %s" % cmd
+    return " [x] Sent: " + mensaje
 
 
 if __name__ == '__main__':

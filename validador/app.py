@@ -4,6 +4,7 @@ import time
 from flask_mail import Mail
 from flask_mail import Message
 import sys
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -29,10 +30,14 @@ channel.queue_declare(queue='canal_validador', durable=True)
 def callback(ch, method, properties, body):
     cmd = body.decode()
 
-    with open('log.txt', 'w') as f:
-        sys.stdout = f # Change the standard output to the file we created.
-        print("respuesta microservicios contabilidad", cmd)
-        sys.stdout = original_stdout
+    # with open('log.txt', 'w') as f:
+    #     sys.stdout = f # Change the standard output to the file we created.
+    #     print("respuesta microservicios contabilidad", cmd)
+    #     sys.stdout = original_stdout
+    f = open("log.txt", "a")
+    f.write("{0} -- {1}\n".format(datetime.now().strftime("%Y-%m-%d %H:%M"), cmd))
+    f.close()
+    print(cmd)
 
     with app.app_context():
         msg = Message('Alerta!', sender =   'gehdevtests@gmail.com ', recipients = ['r.orellana@uniandes.edu.co', 's.ocampor@uniandes.edu.co', 'cx.diaz@uniandes.edu.co'])

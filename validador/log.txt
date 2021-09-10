@@ -1,1 +1,0 @@
-respuesta microservicios contabilidad canal_contabilidad_3 = respuesta consulta base de datos sqlite. UUID del reporte = (1273a68e-1191-11ec-8049-0242c0a82007)

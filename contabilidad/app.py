@@ -3,6 +3,7 @@ import pika
 import os
 import time
 import sys
+from datetime import datetime
 
 app = Flask(__name__)
 original_stdout = sys.stdout
@@ -32,10 +33,15 @@ def callback(ch, method, properties, body):
     cmd = body.decode()
     solicitud = cmd.split('---')
 
-    with open('log'+CANAL+'.txt', 'w') as f:
-        sys.stdout = f # Change the standard output to the file we created.
-        print('cmd', cmd, CANAL, MICROSERVICIO, solicitud)
-        sys.stdout = original_stdout
+    # with open('log'+CANAL+'.txt', 'w') as f:
+    #     sys.stdout = f # Change the standard output to the file we created.
+    #     print('cmd', cmd, CANAL, MICROSERVICIO, solicitud)
+    #     sys.stdout = original_stdout
+
+    f = open('log'+CANAL+'.txt', "a")
+    f.write("{0} -- {1}\n".format(datetime.now().strftime("%Y-%m-%d %H:%M"), cmd))
+    f.close()
+    print(cmd)
 
     if solicitud[0] == 'financiero':
         print("imprime reporte financioer")
