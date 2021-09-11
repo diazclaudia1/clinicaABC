@@ -4,6 +4,8 @@ import os
 import time
 import sys
 from datetime import datetime
+import json
+import random
 
 app = Flask(__name__)
 original_stdout = sys.stdout
@@ -32,11 +34,12 @@ def callback(ch, method, properties, body):
 
     cmd = body.decode()
     solicitud = cmd.split('---')
-
-    # with open('log'+CANAL+'.txt', 'w') as f:
-    #     sys.stdout = f # Change the standard output to the file we created.
-    #     print('cmd', cmd, CANAL, MICROSERVICIO, solicitud)
-    #     sys.stdout = original_stdout
+    
+    objMessage = {
+        'chanel': CANAL,
+        'message': "respuesta consulta base de datos sqlite. UUID del reporte = (" + solicitud[1]+")", 
+        'result': random.choice([True, False])
+    }
 
     f = open('log'+CANAL+'.txt', "a")
     f.write("{0} -- {1}\n".format(datetime.now().strftime("%Y-%m-%d %H:%M"), cmd))
@@ -49,7 +52,7 @@ def callback(ch, method, properties, body):
         channel.basic_publish(
             exchange='',
             routing_key='canal_validador',
-            body=CANAL + " = respuesta consulta base de datos sqlite. UUID del reporte = (" + solicitud[1]+")",
+            body=json.dumps(objMessage),
             properties=pika.BasicProperties(
                 delivery_mode=2,  # make message persistent
             ))
