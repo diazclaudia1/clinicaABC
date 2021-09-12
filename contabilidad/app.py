@@ -38,7 +38,8 @@ def callback(ch, method, properties, body):
     objMessage = {
         'chanel': CANAL,
         'message': "respuesta consulta base de datos sqlite. UUID del reporte = (" + solicitud[1]+")", 
-        'result': random.choice([True, False])
+        'result': random.choice([True, False]),
+        'uuid' : solicitud[1]
     }
 
     f = open('log'+CANAL+'.txt', "a")
