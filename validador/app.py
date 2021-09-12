@@ -69,7 +69,7 @@ def callback(ch, method, properties, body):
 
     # using with statement
     with open('log.txt', 'a') as f:
-        f.write("{0} -- {1}\n".format(datetime.now().strftime("%Y-%m-%d %H:%M"), cmd))
+        f.write("{0} -- {1} --orden: {2} --canal: {3} --msgLog: {4}\n".format(datetime.now().strftime("%Y-%m-%d %H:%M"), cmd, largoArray, mensaje['chanel'], msgLog))
         print(cmd)
 
     notificacion(canal_con_error, uuid_peticion)
