@@ -11,7 +11,7 @@ uuid_peticion=""
 
 def notificacion(canal_con_error, uuid_peticion):
     with app.app_context():
-        msg = Message('Alerta!', sender =   'gehdevtests@gmail.com ', recipients = ['cx.diaz@uniandes.edu.co'])
+        msg = Message('Alerta!', sender ='gehdevtests@gmail.com ', recipients = ['cx.diaz@uniandes.edu.co'])
         msg.body = "Errores encontrados: "  + canal_con_error + "\nPetición UUID: "+ uuid_peticion
         mail.send(msg)   
 
