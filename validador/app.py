@@ -36,6 +36,37 @@ def callback(ch, method, properties, body):
     largoArray = len(arrayValidar[mensaje['uuid']])
     ###########################################################
 
+    ##Lógica de validación#####################################
+    notificar = False
+    msgLog = ""
+    canalNotificar = ""
+    uuidNotificar = ""
+    if largoArray == 3:##Si hay 3 elementos en el array del uuid se hace comparación
+        
+        mensaje1 = arrayValidar[mensaje['uuid']][0]['result']
+        mensaje2 = arrayValidar[mensaje['uuid']][1]['result']
+        mensaje3 = arrayValidar[mensaje['uuid']][2]['result']
+        
+        ##Si son todos los elementos iguales no hay error
+        if mensaje1 == mensaje2 == mensaje3:
+            msgLog = "Todos son iguales, no se notifica"
+        elif mensaje1 == mensaje2:
+            notificar = True
+            canalNotificar = arrayValidar[mensaje['uuid']][2]['chanel']
+            uuidNotificar =  arrayValidar[mensaje['uuid']][2]['uuid']
+            msgLog = "Canal Msg 1 = Canal Msg 2 => se nofifica Canal "+canalNotificar
+        elif mensaje1 == mensaje3:
+            notificar = True
+            canalNotificar = arrayValidar[mensaje['uuid']][1]['chanel']
+            uuidNotificar =  arrayValidar[mensaje['uuid']][1]['uuid']
+            msgLog = "Canal Msg 1 = Canal Msg 3 => se nofifica Canal "+canalNotificar
+        else:
+            notificar = True
+            canalNotificar = arrayValidar[mensaje['uuid']][0]['chanel']
+            uuidNotificar =  arrayValidar[mensaje['uuid']][0]['uuid']
+            msgLog = "Canal Msg 2 = Canal Msg 3 => se nofifica Canal "+canalNotificar
+    #####################################################
+
     # using with statement
     with open('log.txt', 'a') as f:
         f.write("{0} -- {1}\n".format(datetime.now().strftime("%Y-%m-%d %H:%M"), cmd))
