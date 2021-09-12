@@ -5,19 +5,36 @@ from flask_mail import Mail
 from flask_mail import Message
 import sys
 from datetime import datetime
+import json
 
 canal_con_error=""
 uuid_peticion=""
 
+arrayValidar = {}
+
 def notificacion(canal_con_error, uuid_peticion):
     with app.app_context():
-        msg = Message('Alerta!', sender ='gehdevtests@gmail.com ', recipients = ['cx.diaz@uniandes.edu.co'])
+        msg = Message('Alerta!', sender ='gehdevtests@gmail.com ', recipients = ['r.orellana@uniandes.edu.co'])
         msg.body = "Errores encontrados: "  + canal_con_error + "\nPetición UUID: "+ uuid_peticion
         mail.send(msg)   
 
 
 def callback(ch, method, properties, body):
     cmd = body.decode()
+
+    ##Acumulación de mensajes en array indexado por uuiid
+    mensaje = json.loads(cmd)
+    
+    peticionValidar = []
+
+    if mensaje['uuid'] in arrayValidar:
+        peticionValidar = arrayValidar[mensaje['uuid']]
+    
+    peticionValidar.append(mensaje)
+
+    arrayValidar[mensaje['uuid']] = peticionValidar
+    largoArray = len(arrayValidar[mensaje['uuid']])
+    ###########################################################
 
     # using with statement
     with open('log.txt', 'a') as f:
