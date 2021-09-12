@@ -6,6 +6,29 @@ from flask_mail import Message
 import sys
 from datetime import datetime
 
+canal_con_error=""
+uuid_peticion=""
+
+def notificacion(canal_con_error, uuid_peticion):
+    with app.app_context():
+        msg = Message('Alerta!', sender =   'gehdevtests@gmail.com ', recipients = ['cx.diaz@uniandes.edu.co'])
+        msg.body = "Errores encontrados: "  + canal_con_error + "\nPetición UUID: "+ uuid_peticion
+        mail.send(msg)   
+
+
+def callback(ch, method, properties, body):
+    cmd = body.decode()
+
+    # using with statement
+    with open('log.txt', 'a') as f:
+        f.write("{0} -- {1}\n".format(datetime.now().strftime("%Y-%m-%d %H:%M"), cmd))
+        print(cmd)
+
+    notificacion(canal_con_error, uuid_peticion)
+    
+    ch.basic_ack(delivery_tag=method.delivery_tag)
+
+
 app = Flask(__name__)
 
 sleepTime = 20
@@ -25,28 +48,7 @@ original_stdout = sys.stdout
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
 channel = connection.channel()
-channel.queue_declare(queue='canal_validador', durable=True)
-
-def callback(ch, method, properties, body):
-    cmd = body.decode()
-
-    # with open('log.txt', 'w') as f:
-    #     sys.stdout = f # Change the standard output to the file we created.
-    #     print("respuesta microservicios contabilidad", cmd)
-    #     sys.stdout = original_stdout
-    f = open("log.txt", "a")
-    f.write("{0} -- {1}\n".format(datetime.now().strftime("%Y-%m-%d %H:%M"), cmd))
-    f.close()
-    print(cmd)
-
-    with app.app_context():
-        msg = Message('Alerta!', sender =   'gehdevtests@gmail.com ', recipients = ['r.orellana@uniandes.edu.co', 's.ocampor@uniandes.edu.co', 'cx.diaz@uniandes.edu.co'])
-        msg.body = "se genera alerta en el validador - voting para el servidor =  " + cmd
-        mail.send(msg)
-    
-    ch.basic_ack(delivery_tag=method.delivery_tag)
-    
-    
+channel.queue_declare(queue='canal_validador', durable=True)       
 channel.basic_qos(prefetch_count=1)
 channel.basic_consume(queue='canal_validador', on_message_callback=callback)
 channel.start_consuming()
@@ -55,3 +57,4 @@ channel.start_consuming()
 @app.route('/')
 def index():
     return 'OK'
+
