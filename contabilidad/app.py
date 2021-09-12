@@ -10,7 +10,7 @@ import random
 app = Flask(__name__)
 original_stdout = sys.stdout
 
-sleepTime = 5
+sleepTime = 20
 print(' [*] Inicia en  ', sleepTime, ' segundos.')
 MICROSERVICIO = os.getenv('MICROSERVICIO')
 CANAL = 'canal_contabilidad_' + MICROSERVICIO
