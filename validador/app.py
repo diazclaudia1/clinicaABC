@@ -72,7 +72,8 @@ def callback(ch, method, properties, body):
         f.write("{0} -- {1} --orden: {2} --canal: {3} --msgLog: {4}\n".format(datetime.now().strftime("%Y-%m-%d %H:%M"), cmd, largoArray, mensaje['chanel'], msgLog))
         print(cmd)
 
-    notificacion(canal_con_error, uuid_peticion)
+    if notificar == True:
+        notificacion(canalNotificar, uuidNotificar)
     
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
