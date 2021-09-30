@@ -1,8 +1,8 @@
 from autorizador import create_app
 from autorizador.rutas import registrar_rutas
+from autorizador.modelos.modelos import Usuario, db
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
-from autorizador.modelos.modelos import Usuario, db
 
 
 app = create_app('default')
@@ -19,3 +19,4 @@ jwt = JWTManager(app)
 def get_logged_user(jwt_header, jwt_data):
     identity = jwt_data['sub']
     return Usuario.query.filter_by(id=identity).one_or_none()
+
