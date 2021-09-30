@@ -11,24 +11,3 @@ services:
     restart: unless-stopped    
     ports:
        - "8001:80"
-
-  autorizador:
-    build: autorizador
-    volumes:
-      - ./autorizador:/app
-    ports:
-      - 5010:5000
-
-  registro:
-    build: registro
-    volumes:
-      - ./registro:/app
-    ports:
-      - 5011:5000
-      
-  historiaclinica:
-    build: historiaclinica
-    volumes:
-      - ./historiaclinica:/app
-    ports:
-      - 5012:5000
