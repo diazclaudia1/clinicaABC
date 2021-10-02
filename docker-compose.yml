@@ -11,3 +11,12 @@ services:
     restart: unless-stopped    
     ports:
        - "8001:80"
+
+  autorizador:
+    build: autorizador
+    volumes:
+      - ./autorizador:/autorizador
+    ports:
+      - 5010:5000
+    depends_on:
+      - nginx
