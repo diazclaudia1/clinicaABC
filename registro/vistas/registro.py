@@ -17,4 +17,4 @@ class VistaRegistroHistoria(Resource):
         if response.status_code == 200:
             return json.loads(response.text)
         else:
-            return {"mensaje: Error "+response.status_code}
+            return json.loads(response.text),response.status_code
