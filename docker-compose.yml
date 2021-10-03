@@ -22,3 +22,10 @@ services:
     volumes:
       - ./reportesdos:/app
 
+  auth:
+    build: auth
+    volumes:
+      - ./auth:/app
+    ports:
+      - 5010:5000
+
