@@ -8,7 +8,6 @@ from flask_jwt_extended.utils import get_jwt, get_jwt_header, get_jwt_identity
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import UniqueConstraint
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow import fields, Schema
 
 app = Flask(__name__)  
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///autorizador.db'
@@ -21,9 +20,13 @@ app_context.push()
 db = SQLAlchemy(app)
 
 db.init_app(app)
-db.create_all()
+
 cors = CORS(app)
 jwt = JWTManager(app)
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
