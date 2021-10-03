@@ -19,7 +19,7 @@ jwt = JWTManager(app)
 @jwt_required()
 def post():
     
-    response = requests.post("http://172.18.0.4/historia", json = request.json, headers = request.headers)
+    response = requests.post("http://historiaclinica:5000/historia", json = request.json, headers = request.headers)
     
     if response.status_code == 200:
         return json.loads(response.text)
