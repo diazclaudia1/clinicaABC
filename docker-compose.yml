@@ -36,3 +36,9 @@ services:
     ports:
       - 5002:5000
 
+  registro:
+    build: registro
+    volumes:
+      - ./registro:/app
+    ports:
+      - 5002:5000
