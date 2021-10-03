@@ -1,54 +1,24 @@
 version: '3'
 
 services:
-  
-  rabbitmq:
-    image: 'rabbitmq:3.6-management-alpine'
+
+  nginx:
+    image: nginx
     ports:
-      - '5672:5672'
-      - '15672:15672'
-
-  contabilidad_1:
-    build: contabilidad
+      - "443:443"
     volumes:
-      - ./contabilidad:/app
-      - ./db/:/db_contabilidad/
-    environment:
-      - MICROSERVICIO=1
-
-  contabilidad_2:
-    build: contabilidad
-    volumes:
-      - ./contabilidad:/app
-      - ./db/:/db_contabilidad/
-    environment:
-      - MICROSERVICIO=2
-
-  contabilidad_3:
-    build: contabilidad
-    volumes:
-      - ./contabilidad:/app
-      - ./db/:/db_contabilidad/
-    environment:
-      - MICROSERVICIO=3
-
-  validador:
-    build: validador
-    volumes:
-      - ./validador:/app
-    environment:
-      - MICROSERVICIO=4
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./nginx/index.html:/app/html:ro
+  
 
   reportes:
     build: reportes
     volumes:
       - ./reportes:/app
-    ports:
-      - 5010:5000
 
-  sqlite3:
-    image: nouchka/sqlite3:latest
-    stdin_open: true
-    tty: true
+  reportesdos:
+    build: reportesdos
     volumes:
-      - ./db/:/root/db/
+      - ./reportesdos:/app
+

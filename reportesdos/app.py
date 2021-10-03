@@ -11,7 +11,7 @@ def index():
 
 @app.route('/tea')
 def otrometodo():
-    return 'TEA'
+    return 'teadossssss'
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
