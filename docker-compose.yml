@@ -27,5 +27,12 @@ services:
     volumes:
       - ./auth:/app
     ports:
-      - 5010:5000
+      - 5001:5000
+
+  historiaclinica:
+    build: historiaclinica
+    volumes:
+      - ./historiaclinica:/app
+    ports:
+      - 5002:5000
 
