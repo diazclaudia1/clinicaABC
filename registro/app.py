@@ -1,8 +1,10 @@
-from flask import Flask
+from flask import Flask, request
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 import requests
 import json
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required
+
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY']='clave-jwt'
@@ -15,9 +17,9 @@ jwt = JWTManager(app)
 	
 @app.route('/registro-historia', methods = ['POST'])
 @jwt_required()
-def post(self):
+def post():
     
-    response = requests.post("http://127.0.0.1:5002/historia", json = request.json, headers = request.headers)
+    response = requests.post("localhost:5002/historia", json = request.json, headers = request.headers)
     
     if response.status_code == 200:
         return json.loads(response.text)

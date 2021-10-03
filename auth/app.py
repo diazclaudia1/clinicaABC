@@ -4,6 +4,8 @@ from flask import app, request
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required
 from flask_cors import CORS
 from flask_jwt_extended.utils import get_jwt, get_jwt_header, get_jwt_identity
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required
+
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import UniqueConstraint
