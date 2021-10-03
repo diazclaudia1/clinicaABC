@@ -81,14 +81,16 @@ def postAuth():
             return {"msg":"Inicio de sesión exitoso", "token": token_de_acceso,"usuario":usuario_schema.dump(usuario)}
 
 
-@app.route('/auth', methods = ['GET'])
+@app.route('/authenticated', methods = ['GET'])
 @jwt_required()
 def get():
     jwtHeader = get_jwt()
     if(jwtHeader["rol"] != "medico"):
             return "El usuario no esta autorizado para acceder al recurso", 403
-    
-    return jwtHeader
+
+    return jwtHeader,200
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
